@@ -1,4 +1,6 @@
-package com.craftinginterpreters.lox;
+package com.craftinginterpreters.lox.scanner;
+
+import com.craftinginterpreters.lox.tokens.Token;
 
 import java.util.ArrayList;
 import java.util.List;
