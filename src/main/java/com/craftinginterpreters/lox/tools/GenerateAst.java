@@ -7,10 +7,11 @@ import java.util.List;
 
 /**
  * Generate abstract class Expr with all kinds of expressions like:
- * unary
- * binary
- * grouping
- * literal
+ * expr -> literal| unary| binary| grouping
+ * unary ->  ( "-" | "!" ) expression
+ * binary -> expression operator expression
+ * grouping -> "(" expression ")"
+ * literal -> NUMBER | STRING | "true" | "false" | "nil" ;
  */
 public class GenerateAst {
     public static void main(String[] args) throws IOException {
