@@ -2,6 +2,7 @@ package com.craftinginterpreters.lox;
 
 import com.craftinginterpreters.lox.scanner.Scanner;
 import com.craftinginterpreters.lox.tokens.Token;
+import com.craftinginterpreters.lox.tokens.TokenType;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -61,11 +62,26 @@ public class Lox {
         }
     }
 
-    /*
-    * Handle errors
-    */
+    /**
+     * Error handling
+     * @param line of error
+     * @param message error
+     */
     public static void error(int line, String message) {
         report(line, "", message);
+    }
+
+    /**
+     * Error handling
+     * @param token with error
+     * @param message error
+     */
+    public static void error(Token token, String message) {
+        if (token.type == TokenType.EOF) {
+            report(token.line, " at end", message);
+        } else {
+            report(token.line, " at '" + token.lexeme + "'", message);
+        }
     }
 
     /*
