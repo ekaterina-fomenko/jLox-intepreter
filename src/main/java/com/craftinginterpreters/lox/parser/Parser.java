@@ -10,7 +10,7 @@ import java.util.List;
 import static com.craftinginterpreters.lox.tokens.TokenType.*;
 
 /**
- * Parse tokens and construct ast tree
+ * Parse tokens and construct ast tree using recursive descent parser
  */
 
 public class Parser {
