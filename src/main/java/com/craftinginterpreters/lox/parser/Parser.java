@@ -20,9 +20,21 @@ public class Parser {
     private final List<Token> tokens;
     private int current;
 
-    Parser(List<Token> tokens) {
+    public Parser(List<Token> tokens) {
         this.tokens = tokens;
         current = 0;
+    }
+
+    /**
+     * Initial method for parsing. It also helps to kick off statements in case of error
+     * @return parsed expression
+     */
+    public Expr parse() {
+        try {
+            return expression();
+        } catch (ParseError error) {
+            return null;
+        }
     }
 
     /**

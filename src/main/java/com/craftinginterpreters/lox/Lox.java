@@ -1,5 +1,6 @@
 package com.craftinginterpreters.lox;
 
+import com.craftinginterpreters.lox.parser.Parser;
 import com.craftinginterpreters.lox.scanner.Scanner;
 import com.craftinginterpreters.lox.tokens.Token;
 import com.craftinginterpreters.lox.tokens.TokenType;
@@ -56,15 +57,21 @@ public class Lox {
     private static void run(String source) {
         Scanner scanner = new Scanner(source);
         List<Token> tokens = scanner.scanTokens();
+        Parser parser = new Parser(tokens);
+        Expr expression = parser.parse();
 
-        for (Token token : tokens) {
-            System.out.println(token);
+        // Stop if there was a syntax error.
+        if (hadError) {
+            return;
         }
+
+        System.out.println(new AstPrinter().print(expression));
     }
 
     /**
      * Error handling
-     * @param line of error
+     *
+     * @param line    of error
      * @param message error
      */
     public static void error(int line, String message) {
@@ -73,7 +80,8 @@ public class Lox {
 
     /**
      * Error handling
-     * @param token with error
+     *
+     * @param token   with error
      * @param message error
      */
     public static void error(Token token, String message) {
