@@ -1,6 +1,7 @@
 package com.craftinginterpreters.lox.interpreter;
 
 import com.craftinginterpreters.lox.Expr;
+import com.craftinginterpreters.lox.Lox;
 import com.craftinginterpreters.lox.interpreter.errors.RuntimeError;
 import com.craftinginterpreters.lox.tokens.Token;
 
@@ -8,6 +9,19 @@ import com.craftinginterpreters.lox.tokens.Token;
  * Interpret expressions after parsing
  */
 public class Interpreter implements Expr.Visitor<Object> {
+
+    /**
+     * Main method for start interpretation
+     * @param expression
+     */
+    public void interpret(Expr expression) {
+        try {
+            Object value = evaluate(expression);
+            System.out.println(stringify(value));
+        } catch (RuntimeError error) {
+            Lox.runtimeError(error);
+        }
+    }
 
     @Override
     public Object visitLiteralExpr(Expr.Literal expr) {
@@ -115,5 +129,20 @@ public class Interpreter implements Expr.Visitor<Object> {
         }
 
         return a.equals(b);
+    }
+
+    private String stringify(Object object) {
+        if (object == null) return "nil";
+
+        // Hack. Work around Java adding ".0" to integer-valued doubles.
+        if (object instanceof Double) {
+            String text = object.toString();
+            if (text.endsWith(".0")) {
+                text = text.substring(0, text.length() - 2);
+            }
+            return text;
+        }
+
+        return object.toString();
     }
 }

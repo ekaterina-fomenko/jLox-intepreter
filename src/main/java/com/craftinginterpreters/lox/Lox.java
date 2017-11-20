@@ -1,5 +1,7 @@
 package com.craftinginterpreters.lox;
 
+import com.craftinginterpreters.lox.interpreter.Interpreter;
+import com.craftinginterpreters.lox.interpreter.errors.RuntimeError;
 import com.craftinginterpreters.lox.parser.Parser;
 import com.craftinginterpreters.lox.scanner.Scanner;
 import com.craftinginterpreters.lox.tokens.Token;
@@ -19,7 +21,10 @@ import java.util.List;
 
 public class Lox {
     private static volatile boolean hadError = false;
-    public static final int EXIT_CODE = 65;
+    private static volatile boolean hadRuntimeError = false;
+    public static final int ERROR_CODE = 65;
+    private static final int RUNTIME_ERROR_CODE = 70;
+    private static final Interpreter interpreter = new Interpreter();
 
     public static void main(String[] args) throws IOException {
         if (args.length > 1) {
@@ -37,7 +42,12 @@ public class Lox {
     public static void runFile(String path) throws IOException {
         byte[] bytes = Files.readAllBytes(Paths.get(path));
         run(new String(bytes, Charset.defaultCharset()));
-        if (hadError) System.exit(EXIT_CODE);
+        if (hadError) {
+            System.exit(ERROR_CODE);
+        }
+        if (hadRuntimeError){
+            System.exit(RUNTIME_ERROR_CODE);
+        }
     }
 
     private static void runPrompt() throws IOException {
@@ -64,8 +74,7 @@ public class Lox {
         if (hadError) {
             return;
         }
-
-        System.out.println(new AstPrinter().print(expression));
+        interpreter.interpret(expression);
     }
 
     /**
@@ -99,6 +108,11 @@ public class Lox {
         System.err.println(
                 "[line " + line + "] Error" + where + ": " + message);
         hadError = true;
+    }
+
+    public static void runtimeError(RuntimeError error) {
+        System.err.println(error.getMessage() + "\n[line " + error.token.line + "]");
+        hadRuntimeError = true;
     }
 
 }
