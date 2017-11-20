@@ -1,10 +1,12 @@
-package com.craftinginterpreters.lox;
+package com.craftinginterpreters.lox.tools;
+
+import com.craftinginterpreters.lox.interpreter.Expr;
 
 /**
  * Tree pretty printing for explicitly showing the nesting structure of the tree
  */
-class AstPrinter implements Expr.Visitor<String> {
-    String print(Expr expr) {
+public class AstPrinter implements Expr.Visitor<String> {
+    public String print(Expr expr) {
         return expr.accept(this);
     }
 

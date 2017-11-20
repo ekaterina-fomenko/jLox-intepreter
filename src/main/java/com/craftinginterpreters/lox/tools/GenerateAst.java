@@ -7,6 +7,7 @@ import java.util.List;
 
 /**
  * Generate abstract class Expr with all kinds of expressions like:
+ *
  * expr -> literal| unary| binary| grouping
  * unary ->  ( "-" | "!" ) expression
  * binary -> expression operator expression
@@ -20,7 +21,7 @@ public class GenerateAst {
             System.exit(1);
         }
         String outputDir = args[0];*/
-        String outputDir = "src/main/java/com/craftinginterpreters/lox";
+        String outputDir = "src/main/java/com/craftinginterpreters/lox/interpreter";
         defineAst(outputDir, "Expr", Arrays.asList(
                 "Binary   : Expr left, Token operator, Expr right",
                 "Grouping : Expr expression",
@@ -35,7 +36,7 @@ public class GenerateAst {
         String path = outputDir + "/" + baseName + ".java";
         PrintWriter writer = new PrintWriter(path, "UTF-8");
 
-        writer.println("package com.craftinginterpreters.lox;");
+        writer.println("package com.craftinginterpreters.lox.interpreter;");
         writer.println("");
         writer.println("import java.util.List;");
         writer.println("import com.craftinginterpreters.lox.tokens.Token;");

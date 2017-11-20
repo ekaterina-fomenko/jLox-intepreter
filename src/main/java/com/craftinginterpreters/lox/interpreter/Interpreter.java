@@ -1,6 +1,5 @@
 package com.craftinginterpreters.lox.interpreter;
 
-import com.craftinginterpreters.lox.Expr;
 import com.craftinginterpreters.lox.Lox;
 import com.craftinginterpreters.lox.interpreter.errors.RuntimeError;
 import com.craftinginterpreters.lox.tokens.Token;

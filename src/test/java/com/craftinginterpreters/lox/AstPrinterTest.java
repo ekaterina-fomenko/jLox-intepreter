@@ -1,7 +1,9 @@
 package com.craftinginterpreters.lox;
 
+import com.craftinginterpreters.lox.interpreter.Expr;
 import com.craftinginterpreters.lox.tokens.Token;
 import com.craftinginterpreters.lox.tokens.TokenType;
+import com.craftinginterpreters.lox.tools.AstPrinter;
 import org.junit.Before;
 import org.junit.Test;
 

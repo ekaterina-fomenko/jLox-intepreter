@@ -1,6 +1,6 @@
 package com.craftinginterpreters.lox.parser;
 
-import com.craftinginterpreters.lox.Expr;
+import com.craftinginterpreters.lox.interpreter.Expr;
 import com.craftinginterpreters.lox.Lox;
 import com.craftinginterpreters.lox.tokens.Token;
 import com.craftinginterpreters.lox.tokens.TokenType;
