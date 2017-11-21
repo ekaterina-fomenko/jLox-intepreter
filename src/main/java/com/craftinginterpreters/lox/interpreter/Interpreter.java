@@ -11,6 +11,7 @@ public class Interpreter implements Expr.Visitor<Object> {
 
     /**
      * Main method for start interpretation
+     *
      * @param expression
      */
     public void interpret(Expr expression) {
@@ -84,8 +85,7 @@ public class Interpreter implements Expr.Visitor<Object> {
                 checkNumberOperands(expr.operator, left, right);
                 return (Double) left - (Double) right;
             case SLASH:
-                checkNumberOperands(expr.operator, left, right);
-                return (Double) left / (Double) right;
+                return divideNumbers(expr.operator, left, right);
             case STAR:
                 checkNumberOperands(expr.operator, left, right);
                 return (Double) left * (Double) right;
@@ -96,6 +96,12 @@ public class Interpreter implements Expr.Visitor<Object> {
 
                 if (left instanceof String && right instanceof String) {
                     return (String) left + (String) right;
+                }
+                if(left instanceof Double && right instanceof String){
+                    return (Double)left + (String)right;
+                }
+                if (left instanceof String && right instanceof Double){
+                    return (String)left + (Double)right;
                 }
                 throw new RuntimeError(expr.operator, "Operands must be two numbers or two strings.");
         }
@@ -128,6 +134,15 @@ public class Interpreter implements Expr.Visitor<Object> {
         }
 
         return a.equals(b);
+    }
+
+    private Double divideNumbers(Token operator, Object left, Object right) {
+        checkNumberOperands(operator, left, right);
+        Double rightDouble = (Double) right;
+        if (rightDouble != 0.0) {
+            return (Double) left / rightDouble;
+        }
+        throw new RuntimeError(operator, "Right operand cannot be null");
     }
 
     private String stringify(Object object) {
