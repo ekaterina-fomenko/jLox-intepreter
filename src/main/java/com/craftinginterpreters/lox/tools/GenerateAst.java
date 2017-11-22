@@ -13,6 +13,11 @@ import java.util.List;
  * binary -> expression operator expression
  * grouping -> "(" expression ")"
  * literal -> NUMBER | STRING | "true" | "false" | "nil" ;
+ *
+ * And also generate abstract class Stmt with statements like:
+ *
+ * exprStmt  → expression ";" ;
+ * printStmt → "print" expression ";" ;
  */
 public class GenerateAst {
     public static void main(String[] args) throws IOException {
@@ -22,11 +27,16 @@ public class GenerateAst {
         }
         String outputDir = args[0];*/
         String outputDir = "src/main/java/com/craftinginterpreters/lox/interpreter";
-        defineAst(outputDir, "Expr", Arrays.asList(
+        defineAst(outputDir, "ExprG", Arrays.asList(
                 "Binary   : Expr left, Token operator, Expr right",
                 "Grouping : Expr expression",
                 "Literal  : Object value",
                 "Unary    : Token operator, Expr right"
+        ));
+
+        defineAst(outputDir, "Stmt", Arrays.asList(
+                "Expression : Expr expression",
+                "Print      : Expr expression"
         ));
     }
 
@@ -81,7 +91,7 @@ public class GenerateAst {
 
         writer.println("    }");
 
-        // Visitor pattern.
+        // Visitor pattern
         writer.println();
         writer.println("    <R> R accept(Visitor<R> visitor) {");
         writer.println("      return visitor.visit" +
