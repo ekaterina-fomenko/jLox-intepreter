@@ -1,7 +1,7 @@
 package com.craftinginterpreters.lox;
 
-import com.craftinginterpreters.lox.interpreter.Expr;
 import com.craftinginterpreters.lox.interpreter.Interpreter;
+import com.craftinginterpreters.lox.interpreter.Stmt;
 import com.craftinginterpreters.lox.interpreter.errors.RuntimeError;
 import com.craftinginterpreters.lox.parser.Parser;
 import com.craftinginterpreters.lox.scanner.Scanner;
@@ -46,7 +46,7 @@ public class Lox {
         if (hadError) {
             System.exit(ERROR_CODE);
         }
-        if (hadRuntimeError){
+        if (hadRuntimeError) {
             System.exit(RUNTIME_ERROR_CODE);
         }
     }
@@ -66,17 +66,17 @@ public class Lox {
     * Parse text from Lox file
      */
     private static void run(String source) {
-        Scanner scanner = new Scanner(source);
-        List<Token> tokens = scanner.scanTokens();
-        Parser parser = new Parser(tokens);
-        Expr expression = parser.parse();
+            Scanner scanner = new Scanner(source);
+            List<Token> tokens = scanner.scanTokens();
+            Parser parser = new Parser(tokens);
+            List<Stmt> statements = parser.parse();
 
-        // Stop if there was a syntax error.
-        if (hadError) {
-            return;
+            // Stop if there was a syntax error.
+            if (hadError) {
+                return;
+            }
+            interpreter.interpret(statements);
         }
-        interpreter.interpret(expression);
-    }
 
     /**
      * Error handling

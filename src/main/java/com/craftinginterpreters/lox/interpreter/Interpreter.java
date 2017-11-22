@@ -4,20 +4,23 @@ import com.craftinginterpreters.lox.Lox;
 import com.craftinginterpreters.lox.interpreter.errors.RuntimeError;
 import com.craftinginterpreters.lox.tokens.Token;
 
+import java.util.List;
+
 /**
  * Interpret expressions after parsing
  */
-public class Interpreter implements Expr.Visitor<Object> {
+public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
 
     /**
      * Main method for start interpretation
      *
-     * @param expression
+     * @param statements
      */
-    public void interpret(Expr expression) {
+    public void interpret(List<Stmt> statements) {
         try {
-            Object value = evaluate(expression);
-            System.out.println(stringify(value));
+            for (Stmt statement : statements) {
+                execute(statement);
+            }
         } catch (RuntimeError error) {
             Lox.runtimeError(error);
         }
@@ -31,6 +34,10 @@ public class Interpreter implements Expr.Visitor<Object> {
     @Override
     public Object visitGroupingExpr(Expr.Grouping expr) {
         return evaluate(expr.expression);
+    }
+
+    private void execute(Stmt stmt) {
+        stmt.accept(this);
     }
 
     private Object evaluate(Expr expr) {
@@ -98,15 +105,28 @@ public class Interpreter implements Expr.Visitor<Object> {
                     return (String) left + (String) right;
                 }
                 if(left instanceof Double && right instanceof String){
-                    return (Double)left + (String)right;
+                    return stringify((Double)left) + (String)right;
                 }
                 if (left instanceof String && right instanceof Double){
-                    return (String)left + (Double)right;
+                    return (String)left + stringify((Double)right);
                 }
                 throw new RuntimeError(expr.operator, "Operands must be two numbers or two strings.");
         }
 
         // Unreachable
+        return null;
+    }
+
+    @Override
+    public Void visitExpressionStmt(Stmt.Expression stmt) {
+        evaluate(stmt.expression);
+        return null;
+    }
+
+    @Override
+    public Void visitPrintStmt(Stmt.Print stmt) {
+        Object value = evaluate(stmt.expression);
+        System.out.println(stringify(value));
         return null;
     }
 

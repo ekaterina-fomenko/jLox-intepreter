@@ -1,10 +1,12 @@
 package com.craftinginterpreters.lox.parser;
 
-import com.craftinginterpreters.lox.interpreter.Expr;
 import com.craftinginterpreters.lox.Lox;
+import com.craftinginterpreters.lox.interpreter.Expr;
+import com.craftinginterpreters.lox.interpreter.Stmt;
 import com.craftinginterpreters.lox.tokens.Token;
 import com.craftinginterpreters.lox.tokens.TokenType;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.craftinginterpreters.lox.tokens.TokenType.*;
@@ -27,15 +29,37 @@ public class Parser {
 
     /**
      * Initial method for parsing. It also helps to kick off statements in case of error
-     * @return parsed expression
+     *
+     * @return parsed statements
      */
-    public Expr parse() {
-        try {
-            return expression();
-        } catch (ParseError error) {
-            return null;
+    public List<Stmt> parse() {
+        List<Stmt> statements = new ArrayList<Stmt>();
+        while (!isAtEnd()) {
+            statements.add(statement());
         }
+
+        return statements;
     }
+
+    private Stmt statement() {
+        if (match(PRINT)) {
+            return printStatement();
+        }
+        return expressionStatement();
+    }
+
+    private Stmt expressionStatement() {
+        Expr expr = expression();
+        consume(SEMICOLON, "Expect ';' after expression.");
+        return new Stmt.Expression(expr);
+    }
+
+    private Stmt printStatement() {
+        Expr value = expression();
+        consume(SEMICOLON, "Expect ';' after value.");
+        return new Stmt.Print(value);
+    }
+
 
     /**
      * Expression rule : expression → equality
@@ -73,7 +97,9 @@ public class Parser {
     }
 
     private boolean check(TokenType tokenType) {
-        if (isAtEnd()) return false;
+        if (isAtEnd()) {
+            return false;
+        }
         return peek().type == tokenType;
     }
 
@@ -83,7 +109,9 @@ public class Parser {
      * @return
      */
     private Token advance() {
-        if (!isAtEnd()) current++;
+        if (!isAtEnd()) {
+            current++;
+        }
         return previous();
     }
 
@@ -185,9 +213,17 @@ public class Parser {
         throw error(peek(), "Expect expression.");
     }
 
+    /**
+     * Check If current token match type, then move to the next token
+     *
+     * @param type    of token that need to check with current token type
+     * @param message of error if doesn't match
+     * @return Token
+     */
     private Token consume(TokenType type, String message) {
-        if (check(type)) return advance();
-
+        if (check(type)) {
+            return advance();
+        }
         throw error(peek(), message);
     }
 
