@@ -35,12 +35,17 @@ public class Parser {
     public List<Stmt> parse() {
         List<Stmt> statements = new ArrayList<Stmt>();
         while (!isAtEnd()) {
-            statements.add(statement());
+            statements.add(declaration());
         }
 
         return statements;
     }
 
+    /**
+     * Statement rule: stm -> expression ";"| "print" expression ";" ;
+     *
+     * @return
+     */
     private Stmt statement() {
         if (match(PRINT)) {
             return printStatement();
@@ -68,6 +73,35 @@ public class Parser {
      */
     private Expr expression() {
         return equality();
+    }
+
+    /**
+     * Declaration rule: varDecl → "var" IDENTIFIER ( "=" expression )? ";" ;
+     *
+     * @return
+     */
+    private Stmt declaration() {
+        try {
+            if (match(VAR)) {
+                return varDeclaration();
+            }
+            return statement();
+        } catch (ParseError error) {
+            synchronize();
+            return null;
+        }
+    }
+
+    private Stmt varDeclaration() {
+        Token name = consume(IDENTIFIER, "Expect variable name.");
+
+        Expr initializer = null;
+        if (match(EQUAL)) {
+            initializer = expression();
+        }
+
+        consume(SEMICOLON, "Expect ';' after variable declaration.");
+        return new Stmt.Var(name, initializer);
     }
 
     /**
@@ -194,7 +228,7 @@ public class Parser {
     }
 
     /**
-     * Primary rule : primary → NUMBER | STRING | "false" | "true" | "nil" | "(" expression ")" ;
+     * Primary rule : primary → IDENTIFIER | NUMBER | STRING | "false" | "true" | "nil" | "(" expression ")" ;
      */
     private Expr primary() {
         if (match(FALSE)) return new Expr.Literal(false);
@@ -203,6 +237,10 @@ public class Parser {
 
         if (match(NUMBER, STRING)) {
             return new Expr.Literal(previous().literal);
+        }
+
+        if (match(IDENTIFIER)) {
+            return new Expr.Variable(previous());
         }
 
         if (match(LEFT_PAREN)) {

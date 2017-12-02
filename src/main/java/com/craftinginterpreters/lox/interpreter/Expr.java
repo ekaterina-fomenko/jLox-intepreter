@@ -89,7 +89,7 @@ public abstract class Expr {
      * varDecl → "var" IDENTIFIER ( "=" expression )? ";" ;
      */
     public static class Variable extends Expr {
-        Variable(Token name) {
+        public Variable(Token name) {
             this.name = name;
         }
 

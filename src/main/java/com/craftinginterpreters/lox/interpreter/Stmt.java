@@ -49,7 +49,7 @@ public abstract class Stmt {
      * varDecl → "var" IDENTIFIER ( "=" expression )? ";" ;
      */
     public static class Var extends Stmt {
-        Var(Token name, Expr initializer) {
+        public Var(Token name, Expr initializer) {
             this.name = name;
             this.initializer = initializer;
         }
