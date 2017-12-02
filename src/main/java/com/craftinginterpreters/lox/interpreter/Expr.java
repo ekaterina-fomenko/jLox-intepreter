@@ -8,13 +8,15 @@ import com.craftinginterpreters.lox.tokens.Token;
 
 public abstract class Expr {
     public interface Visitor<R> {
-        R visitBinaryExpr(Binary expr);
+        public R visitBinaryExpr(Binary expr);
 
-        R visitGroupingExpr(Grouping expr);
+        public R visitGroupingExpr(Grouping expr);
 
-        R visitLiteralExpr(Literal expr);
+        public R visitLiteralExpr(Literal expr);
 
-        R visitUnaryExpr(Unary expr);
+        public R visitUnaryExpr(Unary expr);
+
+        public R visitVariableExpr(Variable expr);
     }
 
     /**
@@ -81,6 +83,21 @@ public abstract class Expr {
 
         public final Token operator;
         public final Expr right;
+    }
+
+    /**
+     * varDecl → "var" IDENTIFIER ( "=" expression )? ";" ;
+     */
+    public static class Variable extends Expr {
+        Variable(Token name) {
+            this.name = name;
+        }
+
+        public <R> R accept(Visitor<R> visitor) {
+            return visitor.visitVariableExpr(this);
+        }
+
+        final Token name;
     }
 
     public abstract <R> R accept(Visitor<R> visitor);

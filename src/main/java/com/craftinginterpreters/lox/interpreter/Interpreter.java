@@ -60,6 +60,11 @@ public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
         return null;
     }
 
+    @Override
+    public Object visitVariableExpr(Expr.Variable expr) {
+        return null;
+    }
+
     private boolean isTruthy(Object object) {
         if (object == null) return false;
         if (object instanceof Boolean) return (Boolean) object;
@@ -108,7 +113,7 @@ public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
                     return stringify((Double)left) + (String)right;
                 }
                 if (left instanceof String && right instanceof Double){
-                    return (String)left + stringify((Double)right);
+                    return (String)left + stringify((Double) right);
                 }
                 throw new RuntimeError(expr.operator, "Operands must be two numbers or two strings.");
         }
@@ -127,6 +132,11 @@ public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
     public Void visitPrintStmt(Stmt.Print stmt) {
         Object value = evaluate(stmt.expression);
         System.out.println(stringify(value));
+        return null;
+    }
+
+    @Override
+    public Void visitVarStmt(Stmt.Var stmt) {
         return null;
     }
 
