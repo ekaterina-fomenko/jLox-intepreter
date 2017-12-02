@@ -1,5 +1,6 @@
 package com.craftinginterpreters.lox.interpreter;
 
+import com.craftinginterpreters.lox.Environment;
 import com.craftinginterpreters.lox.Lox;
 import com.craftinginterpreters.lox.interpreter.errors.RuntimeError;
 import com.craftinginterpreters.lox.tokens.Token;
@@ -10,6 +11,7 @@ import java.util.List;
  * Interpret expressions after parsing
  */
 public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
+    private Environment environment = new Environment();
 
     /**
      * Main method for start interpretation
@@ -62,7 +64,7 @@ public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
 
     @Override
     public Object visitVariableExpr(Expr.Variable expr) {
-        return null;
+        return environment.get(expr.name);
     }
 
     private boolean isTruthy(Object object) {
@@ -137,6 +139,12 @@ public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
 
     @Override
     public Void visitVarStmt(Stmt.Var stmt) {
+        Object value = null;
+        if (stmt.initializer != null) {
+            value = evaluate(stmt.initializer);
+        }
+
+        environment.define(stmt.name.lexeme, value);
         return null;
     }
 
