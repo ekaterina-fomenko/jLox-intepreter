@@ -28,6 +28,7 @@ public class GenerateAst {
         String outputDir = args[0];*/
         String outputDir = "src/main/java/com/craftinginterpreters/lox/interpreter";
         defineAst(outputDir, "ExprG", Arrays.asList(
+                "Assign   : Token name, Expr value",
                 "Binary   : Expr left, Token operator, Expr right",
                 "Grouping : Expr expression",
                 "Literal  : Object value",

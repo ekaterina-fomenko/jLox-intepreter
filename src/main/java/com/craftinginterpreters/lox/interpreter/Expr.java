@@ -8,6 +8,8 @@ import com.craftinginterpreters.lox.tokens.Token;
 
 public abstract class Expr {
     public interface Visitor<R> {
+        public R visitAssignExpr(Assign expr);
+
         public R visitBinaryExpr(Binary expr);
 
         public R visitGroupingExpr(Grouping expr);
@@ -17,6 +19,23 @@ public abstract class Expr {
         public R visitUnaryExpr(Unary expr);
 
         public R visitVariableExpr(Variable expr);
+    }
+
+    /**
+     * assignment → identifier "=" assignment | equality ;
+     */
+    public static class Assign extends Expr {
+        public Assign(Token name, Expr value) {
+            this.name = name;
+            this.value = value;
+        }
+
+        public <R> R accept(Visitor<R> visitor) {
+            return visitor.visitAssignExpr(this);
+        }
+
+        final Token name;
+        final Expr value;
     }
 
     /**
@@ -97,7 +116,7 @@ public abstract class Expr {
             return visitor.visitVariableExpr(this);
         }
 
-        final Token name;
+        public final Token name;
     }
 
     public abstract <R> R accept(Visitor<R> visitor);

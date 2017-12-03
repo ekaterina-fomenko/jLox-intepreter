@@ -67,12 +67,33 @@ public class Parser {
 
 
     /**
-     * Expression rule : expression → equality
+     * Expression rule : expression → assignment ;
      *
      * @return
      */
     private Expr expression() {
-        return equality();
+        return assignment();
+    }
+
+    /**
+     * assignment → identifier "=" assignment | equality ;
+     */
+    private Expr assignment() {
+        Expr expr = equality();
+
+        if (match(EQUAL)) {
+            Token equals = previous();
+            Expr value = assignment();
+
+            if (expr instanceof Expr.Variable) {
+                Token name = ((Expr.Variable)expr).name;
+                return new Expr.Assign(name, value);
+            }
+
+            error(equals, "Invalid assignment target.");
+        }
+
+        return expr;
     }
 
     /**
