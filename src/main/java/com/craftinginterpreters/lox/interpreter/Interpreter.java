@@ -111,11 +111,11 @@ public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
                 if (left instanceof String && right instanceof String) {
                     return (String) left + (String) right;
                 }
-                if(left instanceof Double && right instanceof String){
-                    return stringify((Double)left) + (String)right;
+                if (left instanceof Double && right instanceof String) {
+                    return stringify((Double) left) + (String) right;
                 }
-                if (left instanceof String && right instanceof Double){
-                    return (String)left + stringify((Double) right);
+                if (left instanceof String && right instanceof Double) {
+                    return (String) left + stringify((Double) right);
                 }
                 throw new RuntimeError(expr.operator, "Operands must be two numbers or two strings.");
         }
@@ -149,11 +149,30 @@ public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
     }
 
     @Override
+    public Void visitBlockStmt(Stmt.Block stmt) {
+        executeBlock(stmt.statements, new Environment(environment));
+        return null;
+    }
+
+    @Override
     public Object visitAssignExpr(Expr.Assign expr) {
         Object value = evaluate(expr.value);
 
         environment.assign(expr.name, value);
         return value;
+    }
+
+    private void executeBlock(List<Stmt> statements, Environment environment) {
+        Environment previous = this.environment;
+        try {
+            this.environment = environment;
+
+            for (Stmt statement : statements) {
+                execute(statement);
+            }
+        } finally {
+            this.environment = previous;
+        }
     }
 
     private void checkNumberOperand(Token operator, Object operand) {

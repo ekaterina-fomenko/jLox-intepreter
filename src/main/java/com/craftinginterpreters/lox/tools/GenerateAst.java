@@ -18,6 +18,7 @@ import java.util.List;
  *
  * exprStmt  → expression ";" ;
  * printStmt → "print" expression ";" ;
+ * block     → "{" declaration* "}" ;
  */
 public class GenerateAst {
     public static void main(String[] args) throws IOException {
@@ -39,7 +40,8 @@ public class GenerateAst {
         defineAst(outputDir, "StmtG", Arrays.asList(
                 "Expression : Expr expression",
                 "Print      : Expr expression",
-                "Var        : Token name, Expr initializer"
+                "Var        : Token name, Expr initializer",
+                "Block      : List<Stmt> statements"
         ));
     }
 
