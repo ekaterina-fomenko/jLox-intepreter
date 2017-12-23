@@ -17,6 +17,8 @@ public abstract class Stmt {
         public R visitVarStmt(Var stmt);
 
         public R visitBlockStmt(Block stmt);
+
+        public R visitIfStmt(If stmt);
     }
 
     /**
@@ -81,6 +83,25 @@ public abstract class Stmt {
         final List<Stmt> statements;
     }
 
+    /**
+     *
+     ifStmt    → "if" "(" expression ")" statement ( "else" statement )? ;
+     */
+    public static class If extends Stmt {
+        public If(Expr condition, Stmt thenBranch, Stmt elseBranch) {
+            this.condition = condition;
+            this.thenBranch = thenBranch;
+            this.elseBranch = elseBranch;
+        }
+
+        public <R> R accept(Visitor<R> visitor) {
+            return visitor.visitIfStmt(this);
+        }
+
+        final Expr condition;
+        final Stmt thenBranch;
+        final Stmt elseBranch;
+    }
 
     abstract <R> R accept(Visitor<R> visitor);
 }

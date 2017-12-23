@@ -19,6 +19,7 @@ import java.util.List;
  * exprStmt  → expression ";" ;
  * printStmt → "print" expression ";" ;
  * block     → "{" declaration* "}" ;
+ * ifStmt    → "if" "(" expression ")" statement ( "else" statement )? ;
  */
 public class GenerateAst {
     public static void main(String[] args) throws IOException {
@@ -41,7 +42,8 @@ public class GenerateAst {
                 "Expression : Expr expression",
                 "Print      : Expr expression",
                 "Var        : Token name, Expr initializer",
-                "Block      : List<Stmt> statements"
+                "Block      : List<Stmt> statements",
+                "If         : Expr condition, Stmt thenBranch, Stmt elseBranch"
         ));
     }
 
