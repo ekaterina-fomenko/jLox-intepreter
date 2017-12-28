@@ -8,7 +8,10 @@ import java.util.List;
 /**
  * Generate abstract class Expr with all kinds of expressions like:
  *
- * expr -> literal| unary| binary| grouping
+ * expression → assignment ;
+ * assignment → identifier "=" assignment | logic_or ;
+ * logic_or   → logic_and ( "or" logic_and )* ;
+ * logic_and  → equality ( "and" equality )* ;
  * unary ->  ( "-" | "!" ) expression
  * binary -> expression operator expression
  * grouping -> "(" expression ")"
@@ -34,6 +37,7 @@ public class GenerateAst {
                 "Binary   : Expr left, Token operator, Expr right",
                 "Grouping : Expr expression",
                 "Literal  : Object value",
+                "Logical  : Expr left, Token operator, Expr right",
                 "Unary    : Token operator, Expr right",
                 "Variable : Token name"
         ));

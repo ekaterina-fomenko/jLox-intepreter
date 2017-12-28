@@ -98,18 +98,16 @@ public class Parser {
 
     /**
      * Expression rule : expression → assignment ;
-     *
-     * @return
      */
     private Expr expression() {
         return assignment();
     }
 
     /**
-     * assignment → identifier "=" assignment | equality ;
+     * assignment → identifier "=" assignment | logic_or ;
      */
     private Expr assignment() {
-        Expr expr = equality();
+        Expr expr = or();
 
         if (match(EQUAL)) {
             Token equals = previous();
@@ -121,6 +119,37 @@ public class Parser {
             }
 
             error(equals, "Invalid assignment target.");
+        }
+
+        return expr;
+    }
+
+    /**
+     * logic_or   → logic_and ( "or" logic_and )* ;
+     */
+    private Expr or() {
+        Expr expr = and();
+
+        while (match(OR)) {
+            Token operator = previous();
+            Expr right = and();
+            expr = new Expr.Logical(expr, operator, right);
+        }
+
+        return expr;
+    }
+
+    /**
+     * logic_and  → equality ( "and" equality )* ;
+     */
+
+    private Expr and() {
+        Expr expr = equality();
+
+        while (match(AND)) {
+            Token operator = previous();
+            Expr right = equality();
+            expr = new Expr.Logical(expr, operator, right);
         }
 
         return expr;

@@ -16,13 +16,15 @@ public abstract class Expr {
 
         public R visitLiteralExpr(Literal expr);
 
+        public R visitLogicalExpr(Logical expr);
+
         public R visitUnaryExpr(Unary expr);
 
         public R visitVariableExpr(Variable expr);
     }
 
     /**
-     * assignment → identifier "=" assignment | equality ;
+     * assignment → identifier "=" assignment | logic_or ;
      */
     public static class Assign extends Expr {
         public Assign(Token name, Expr value) {
@@ -34,8 +36,8 @@ public abstract class Expr {
             return visitor.visitAssignExpr(this);
         }
 
-        final Token name;
-        final Expr value;
+        public final Token name;
+        public final Expr value;
     }
 
     /**
@@ -85,6 +87,26 @@ public abstract class Expr {
         }
 
         public final Object value;
+    }
+
+    /**
+     * logic_or   → logic_and ( "or" logic_and )* ;
+     * logic_and  → equality ( "and" equality )* ;
+     */
+    public static class Logical extends Expr {
+        public Logical(Expr left, Token operator, Expr right) {
+            this.left = left;
+            this.operator = operator;
+            this.right = right;
+        }
+
+        public <R> R accept(Visitor<R> visitor) {
+            return visitor.visitLogicalExpr(this);
+        }
+
+        public final Expr left;
+        public final Token operator;
+        public final Expr right;
     }
 
     /**

@@ -35,16 +35,21 @@ public class LoxTest {
         run("simpleLoxInput.lox", "simpleLoxOutput.lox");
     }
 
+    @Test
+    public void mainVarScopeTest() throws IOException {
+        run("varScopeInput.lox", "varScopeOutput.lox");
+    }
+
+    @Test
+    public void mainLogicalOperationsTest() throws IOException {
+        run("logicOperationsInput.lox", "logicOperationsOutput.lox");
+    }
+
     private void run(String fileNameInput, String fileNameOutput) throws IOException {
         String[] args = {FILES_PATH + fileNameInput};
         Lox.main(args);
         byte[] bytes = Files.readAllBytes(Paths.get(FILES_PATH + fileNameOutput));
         String expected = new String(bytes, Charset.defaultCharset());
         assertEquals(expected, outContent.toString());
-    }
-
-    @Test
-    public void mainVarScopeTest() throws IOException {
-        run("varScopeInput.lox", "varScopeOutput.lox");
     }
 }

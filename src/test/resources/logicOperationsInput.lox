@@ -1,0 +1,16 @@
+print true or false;
+print false or false or true;
+print true or 2;
+
+print "hi" or 2;
+print nil or "yes";
+
+print true and false;
+print true and true and false;
+print true and 2;
+
+print "hi" and 2;
+print nil and "yes";
+
+print true and false or true;
+print true and false or false;
