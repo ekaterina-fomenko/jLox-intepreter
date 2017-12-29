@@ -19,10 +19,12 @@ import java.util.List;
  *
  * And also generate abstract class Stmt with statements like:
  *
+ * statement → exprStmt | ifStmt | printStmt | whileStmt | block ;
  * exprStmt  → expression ";" ;
  * printStmt → "print" expression ";" ;
  * block     → "{" declaration* "}" ;
  * ifStmt    → "if" "(" expression ")" statement ( "else" statement )? ;
+ * whileStmt → "while" "(" expression ")" statement ;
  */
 public class GenerateAst {
     public static void main(String[] args) throws IOException {
@@ -47,7 +49,8 @@ public class GenerateAst {
                 "Print      : Expr expression",
                 "Var        : Token name, Expr initializer",
                 "Block      : List<Stmt> statements",
-                "If         : Expr condition, Stmt thenBranch, Stmt elseBranch"
+                "If         : Expr condition, Stmt thenBranch, Stmt elseBranch",
+                "While      : Expr condition, Stmt body"
         ));
     }
 

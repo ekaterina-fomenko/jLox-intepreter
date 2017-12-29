@@ -19,6 +19,8 @@ public abstract class Stmt {
         public R visitBlockStmt(Block stmt);
 
         public R visitIfStmt(If stmt);
+
+        public R visitWhileStmt(While stmt);
     }
 
     /**
@@ -84,8 +86,7 @@ public abstract class Stmt {
     }
 
     /**
-     *
-     ifStmt    → "if" "(" expression ")" statement ( "else" statement )? ;
+     * ifStmt    → "if" "(" expression ")" statement ( "else" statement )? ;
      */
     public static class If extends Stmt {
         public If(Expr condition, Stmt thenBranch, Stmt elseBranch) {
@@ -101,6 +102,20 @@ public abstract class Stmt {
         final Expr condition;
         final Stmt thenBranch;
         final Stmt elseBranch;
+    }
+
+    public static class While extends Stmt {
+        public While(Expr condition, Stmt body) {
+            this.condition = condition;
+            this.body = body;
+        }
+
+        public <R> R accept(Visitor<R> visitor) {
+            return visitor.visitWhileStmt(this);
+        }
+
+        final Expr condition;
+        final Stmt body;
     }
 
     abstract <R> R accept(Visitor<R> visitor);
