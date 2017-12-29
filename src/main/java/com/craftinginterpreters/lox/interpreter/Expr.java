@@ -159,9 +159,9 @@ public abstract class Expr {
             return visitor.visitCallExpr(this);
         }
 
-        final Expr callee;
-        final Token paren;
-        final List<Expr> arguments;
+        public final Expr callee;
+        public final Token paren;
+        public final List<Expr> arguments;
     }
 
     public abstract <R> R accept(Visitor<R> visitor);

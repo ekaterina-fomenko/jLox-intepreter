@@ -46,6 +46,12 @@ public class AstPrinter implements Expr.Visitor<String> {
         return parenthesize(expr.name.lexeme);
     }
 
+    @Override
+    public String visitCallExpr(Expr.Call expr) {
+        //Add arguments
+        return parenthesize(expr.paren.lexeme, expr.callee);
+    }
+
     /**
      * Helper method for converting expressions to string
      *
