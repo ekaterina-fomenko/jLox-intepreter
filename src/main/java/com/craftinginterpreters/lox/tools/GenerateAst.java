@@ -16,6 +16,8 @@ import java.util.List;
  * binary -> expression operator expression
  * grouping -> "(" expression ")"
  * literal -> NUMBER | STRING | "true" | "false" | "nil" ;
+ * call  → primary ( "(" arguments? ")" )* ;
+ * arguments → expression ( "," expression )* ;
  *
  * And also generate abstract class Stmt with statements like:
  *
@@ -42,7 +44,8 @@ public class GenerateAst {
                 "Literal  : Object value",
                 "Logical  : Expr left, Token operator, Expr right",
                 "Unary    : Token operator, Expr right",
-                "Variable : Token name"
+                "Variable : Token name",
+                "Call     : Expr callee, Token paren, List<Expr> arguments"
         ));
 
         defineAst(outputDir, "StmtG", Arrays.asList(
