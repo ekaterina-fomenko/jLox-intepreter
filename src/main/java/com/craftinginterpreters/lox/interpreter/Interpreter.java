@@ -14,7 +14,24 @@ import java.util.List;
  * Interpret expressions after parsing
  */
 public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
-    private Environment environment = new Environment();
+    public final Environment globals = new Environment();
+    private Environment environment = globals;
+
+    Interpreter() {
+        //Measure time of working
+        globals.define("clock", new LoxCallable() {
+            @Override
+            public int arity() {
+                return 0;
+            }
+
+            @Override
+            public Object call(Interpreter interpreter,
+                               List<Object> arguments) {
+                return (double)System.currentTimeMillis() / 1000.0;
+            }
+        });
+    }
 
     /**
      * Main method for start interpretation
