@@ -163,7 +163,7 @@ public class Parser {
     }
 
     /**
-     * Declaration rule: varDecl → "var" IDENTIFIER ( "=" expression )? ";" ;
+     * Declaration rule: declaration → funDecl | varDecl | statement ;
      *
      * @return
      */
@@ -172,6 +172,9 @@ public class Parser {
             if (match(VAR)) {
                 return varDeclaration();
             }
+            if (match(FUN)) {
+                return function("function");
+            }
             return statement();
         } catch (ParseError error) {
             synchronize();
@@ -179,6 +182,31 @@ public class Parser {
         }
     }
 
+    /**
+     * function → IDENTIFIER "(" parameters? ")" block ;
+     */
+    private Stmt.Function function(String kind) {
+        Token name = consume(IDENTIFIER, "Expect " + kind + " name.");
+        consume(LEFT_PAREN, "Expect '(' after " + kind + " name.");
+        List<Token> parameters = new ArrayList<>();
+        if (!check(RIGHT_PAREN)) {
+            do {
+                if (parameters.size() >= 8) {
+                    error(peek(), "Cannot have more than 8 parameters.");
+                }
+
+                parameters.add(consume(IDENTIFIER, "Expect parameter name."));
+            } while (match(COMMA));
+        }
+        consume(RIGHT_PAREN, "Expect ')' after parameters.");
+        consume(LEFT_BRACE, "Expect '{' before " + kind + " body.");
+        List<Stmt> body = block();
+        return new Stmt.Function(name, parameters, body);
+    }
+
+    /**
+     * varDecl → "var" IDENTIFIER ( "=" expression )? ";" ;
+     */
     private Stmt varDeclaration() {
         Token name = consume(IDENTIFIER, "Expect variable name.");
 

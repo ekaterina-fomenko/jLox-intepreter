@@ -28,6 +28,8 @@ import java.util.List;
  * ifStmt    → "if" "(" expression ")" statement ( "else" statement )? ;
  * whileStmt → "while" "(" expression ")" statement ;
  * forStmt   → "for" "(" ( varDecl | exprStmt | ";" ) expression? ";"expression? ")" statement ;
+ * funDecl  → "fun" function ;
+ * function → IDENTIFIER "(" parameters? ")" block ;
  */
 public class GenerateAst {
     public static void main(String[] args) throws IOException {
@@ -54,7 +56,8 @@ public class GenerateAst {
                 "Var        : Token name, Expr initializer",
                 "Block      : List<Stmt> statements",
                 "If         : Expr condition, Stmt thenBranch, Stmt elseBranch",
-                "While      : Expr condition, Stmt body"
+                "While      : Expr condition, Stmt body",
+                "Function   : Token name, List<Token> parameters, List<Stmt> body"
         ));
     }
 

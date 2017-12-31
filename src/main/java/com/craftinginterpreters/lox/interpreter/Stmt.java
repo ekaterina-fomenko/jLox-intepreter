@@ -21,6 +21,8 @@ public abstract class Stmt {
         public R visitIfStmt(If stmt);
 
         public R visitWhileStmt(While stmt);
+
+        public R visitFunctionStmt(Function stmt);
     }
 
     /**
@@ -116,6 +118,22 @@ public abstract class Stmt {
 
         final Expr condition;
         final Stmt body;
+    }
+
+    public static class Function extends Stmt {
+        public Function(Token name, List<Token> parameters, List<Stmt> body) {
+            this.name = name;
+            this.parameters = parameters;
+            this.body = body;
+        }
+
+        public <R> R accept(Visitor<R> visitor) {
+            return visitor.visitFunctionStmt(this);
+        }
+
+        final Token name;
+        final List<Token> parameters;
+        final List<Stmt> body;
     }
 
     abstract <R> R accept(Visitor<R> visitor);

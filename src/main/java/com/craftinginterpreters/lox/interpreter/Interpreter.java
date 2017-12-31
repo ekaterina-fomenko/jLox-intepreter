@@ -17,7 +17,7 @@ public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
     public final Environment globals = new Environment();
     private Environment environment = globals;
 
-    Interpreter() {
+    public Interpreter() {
         //Measure time of working
         globals.define("clock", new LoxCallable() {
             @Override
