@@ -132,8 +132,8 @@ public abstract class Stmt {
         }
 
         final Token name;
-        final List<Token> parameters;
-        final List<Stmt> body;
+        public final List<Token> parameters;
+        public final List<Stmt> body;
     }
 
     abstract <R> R accept(Visitor<R> visitor);

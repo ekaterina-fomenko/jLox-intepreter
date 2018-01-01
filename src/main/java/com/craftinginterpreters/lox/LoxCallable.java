@@ -4,6 +4,9 @@ import com.craftinginterpreters.lox.interpreter.Interpreter;
 
 import java.util.List;
 
+/**
+ * Interface for callable functions
+ */
 public interface LoxCallable {
 
     //Number of arguments that function expects
