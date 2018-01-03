@@ -31,3 +31,7 @@ fibonacci fun result:
 1597
 2584
 4181
+
+makeCounter fun result:
+1
+2
