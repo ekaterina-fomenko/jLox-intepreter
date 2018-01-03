@@ -50,6 +50,11 @@ public class LoxTest {
         run("loopsInput.lox", "loopsOutput.lox");
     }
 
+    @Test
+    public void mainFunctionsTest() throws IOException {
+        run("functionsInput.lox", "functionsOutput.lox");
+    }
+
     private void run(String fileNameInput, String fileNameOutput) throws IOException {
         String[] args = {FILES_PATH + fileNameInput};
         Lox.main(args);

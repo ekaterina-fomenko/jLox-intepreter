@@ -131,7 +131,7 @@ public abstract class Stmt {
             return visitor.visitFunctionStmt(this);
         }
 
-        final Token name;
+        public final Token name;
         public final List<Token> parameters;
         public final List<Stmt> body;
     }

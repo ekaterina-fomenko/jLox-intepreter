@@ -8,13 +8,13 @@ import java.util.List;
 public class LoxFunction implements LoxCallable {
     private final Stmt.Function declaration;
 
-    LoxFunction(Stmt.Function declaration) {
+    public LoxFunction(Stmt.Function declaration) {
         this.declaration = declaration;
     }
 
     @Override
     public int arity() {
-        return 0;
+        return declaration.parameters.size();
     }
 
     @Override
@@ -27,5 +27,10 @@ public class LoxFunction implements LoxCallable {
 
         interpreter.executeBlock(declaration.body, environment);
         return null;
+    }
+
+    @Override
+    public String toString() {
+        return "<fn " + declaration.name.lexeme + ">";
     }
 }
