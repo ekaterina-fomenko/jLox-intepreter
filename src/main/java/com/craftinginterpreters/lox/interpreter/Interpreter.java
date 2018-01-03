@@ -4,6 +4,7 @@ import com.craftinginterpreters.lox.Environment;
 import com.craftinginterpreters.lox.Lox;
 import com.craftinginterpreters.lox.LoxCallable;
 import com.craftinginterpreters.lox.LoxFunction;
+import com.craftinginterpreters.lox.interpreter.errors.Return;
 import com.craftinginterpreters.lox.interpreter.errors.RuntimeError;
 import com.craftinginterpreters.lox.tokens.Token;
 import com.craftinginterpreters.lox.tokens.TokenType;
@@ -29,7 +30,7 @@ public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
             @Override
             public Object call(Interpreter interpreter,
                                List<Object> arguments) {
-                return (double)System.currentTimeMillis() / 1000.0;
+                return (double) System.currentTimeMillis() / 1000.0;
             }
         });
     }
@@ -178,7 +179,7 @@ public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
             throw new RuntimeError(expr.paren,
                     "Can only call functions and classes.");
         }
-        LoxCallable function = (LoxCallable)callee;
+        LoxCallable function = (LoxCallable) callee;
         if (arguments.size() != function.arity()) {
             throw new RuntimeError(expr.paren, "Expected " +
                     function.arity() + " arguments but got " +
@@ -248,6 +249,16 @@ public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
         LoxFunction function = new LoxFunction(stmt);
         environment.define(stmt.name.lexeme, function);
         return null;
+    }
+
+    @Override
+    public Void visitReturnStmt(Stmt.Return stmt) {
+        Object value = null;
+        if (stmt.value != null) {
+            value = evaluate(stmt.value);
+        }
+
+        throw new Return(value);
     }
 
     public void executeBlock(List<Stmt> statements, Environment environment) {

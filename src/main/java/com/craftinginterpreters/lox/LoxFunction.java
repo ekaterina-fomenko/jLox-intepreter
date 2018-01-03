@@ -2,6 +2,7 @@ package com.craftinginterpreters.lox;
 
 import com.craftinginterpreters.lox.interpreter.Interpreter;
 import com.craftinginterpreters.lox.interpreter.Stmt;
+import com.craftinginterpreters.lox.interpreter.errors.Return;
 
 import java.util.List;
 
@@ -25,7 +26,11 @@ public class LoxFunction implements LoxCallable {
                     arguments.get(i));
         }
 
-        interpreter.executeBlock(declaration.body, environment);
+        try {
+            interpreter.executeBlock(declaration.body, environment);
+        } catch (Return returnValue) {
+            return returnValue.value;
+        }
         return null;
     }
 

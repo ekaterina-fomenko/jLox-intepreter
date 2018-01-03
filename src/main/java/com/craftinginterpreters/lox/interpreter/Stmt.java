@@ -23,6 +23,8 @@ public abstract class Stmt {
         public R visitWhileStmt(While stmt);
 
         public R visitFunctionStmt(Function stmt);
+
+        public R visitReturnStmt(Return stmt);
     }
 
     /**
@@ -134,6 +136,23 @@ public abstract class Stmt {
         public final Token name;
         public final List<Token> parameters;
         public final List<Stmt> body;
+    }
+
+    /**
+     * returnStmt → "return" expression? ";" ;
+     */
+    public static class Return extends Stmt {
+        public Return(Token keyword, Expr value) {
+            this.keyword = keyword;
+            this.value = value;
+        }
+
+        public <R> R accept(Visitor<R> visitor) {
+            return visitor.visitReturnStmt(this);
+        }
+
+        final Token keyword;
+        final Expr value;
     }
 
     abstract <R> R accept(Visitor<R> visitor);
