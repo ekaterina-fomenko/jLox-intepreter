@@ -35,3 +35,7 @@ fibonacci fun result:
 makeCounter fun result:
 1
 2
+
+makePoint fun result:
+2
+3
