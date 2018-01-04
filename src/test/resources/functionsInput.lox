@@ -72,3 +72,16 @@ fun makePoint(x, y) {
 var point = makePoint(2, 3);
 print point("x"); // "2".
 print point("y"); // "3".
+print "";
+
+//------------------------------------------
+print "thrice fun result:";
+fun thrice(fn) {
+  for (var i = 1; i <= 3; i = i + 1) {
+    fn(i);
+  }
+}
+
+thrice(fun (a) {
+  print a;
+});

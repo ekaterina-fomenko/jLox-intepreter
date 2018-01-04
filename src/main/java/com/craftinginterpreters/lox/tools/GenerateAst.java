@@ -48,7 +48,9 @@ public class GenerateAst {
                 "Logical  : Expr left, Token operator, Expr right",
                 "Unary    : Token operator, Expr right",
                 "Variable : Token name",
-                "Call     : Expr callee, Token paren, List<Expr> arguments"
+                "Call     : Expr callee, Token paren, List<Expr> arguments",
+                //for anonymous functions as parameters
+                "Function   : Token name, List<Token> parameters, List<Stmt> body"
         ));
 
         defineAst(outputDir, "StmtG", Arrays.asList(

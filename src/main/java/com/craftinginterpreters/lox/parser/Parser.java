@@ -186,7 +186,7 @@ public class Parser {
                 return varDeclaration();
             }
             if (match(FUN)) {
-                return function("function");
+                return function("function", false);
             }
             return statement();
         } catch (ParseError error) {
@@ -198,8 +198,8 @@ public class Parser {
     /**
      * function → IDENTIFIER "(" parameters? ")" block ;
      */
-    private Stmt.Function function(String kind) {
-        Token name = consume(IDENTIFIER, "Expect " + kind + " name.");
+    private Stmt.Function function(String kind, boolean isAnonymous) {
+        Token name = !isAnonymous ? consume(IDENTIFIER, "Expect " + kind + " name.") : null;
         consume(LEFT_PAREN, "Expect '(' after " + kind + " name.");
         List<Token> parameters = new ArrayList<>();
         if (!check(RIGHT_PAREN)) {
@@ -391,7 +391,7 @@ public class Parser {
     }
 
     /**
-     * Unary rule : unary → ( "!" | "-" ) unary | primary ;
+     * Unary rule : unary → ( "!" | "-" ) unary | call ;
      *
      * @return
      */
@@ -442,12 +442,23 @@ public class Parser {
      * Primary rule : primary → IDENTIFIER | NUMBER | STRING | "false" | "true" | "nil" | "(" expression ")" ;
      */
     private Expr primary() {
-        if (match(FALSE)) return new Expr.Literal(false);
-        if (match(TRUE)) return new Expr.Literal(true);
-        if (match(NIL)) return new Expr.Literal(null);
+        if (match(FALSE)) {
+            return new Expr.Literal(false);
+        }
+        if (match(TRUE)) {
+            return new Expr.Literal(true);
+        }
+        if (match(NIL)) {
+            return new Expr.Literal(null);
+        }
 
         if (match(NUMBER, STRING)) {
             return new Expr.Literal(previous().literal);
+        }
+
+        if (match(FUN)) {
+            Stmt.Function func = function("anonymous function", true);
+            return new Expr.Function(null, func.parameters, func.body);
         }
 
         if (match(IDENTIFIER)) {

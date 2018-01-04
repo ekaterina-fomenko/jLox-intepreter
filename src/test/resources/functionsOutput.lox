@@ -39,3 +39,8 @@ makeCounter fun result:
 makePoint fun result:
 2
 3
+
+thrice fun result:
+1
+2
+3

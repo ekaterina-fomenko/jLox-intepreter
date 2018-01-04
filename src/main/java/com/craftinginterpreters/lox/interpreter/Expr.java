@@ -25,6 +25,8 @@ public abstract class Expr {
         public R visitVariableExpr(Variable expr);
 
         public R visitCallExpr(Call expr);
+
+        public R visitFunctionExpr(Function expr);
     }
 
     /**
@@ -162,6 +164,22 @@ public abstract class Expr {
         public final Expr callee;
         public final Token paren;
         public final List<Expr> arguments;
+    }
+
+    public static class Function extends Expr {
+        public Function(Token name, List<Token> parameters, List<Stmt> body) {
+            this.name = name;
+            this.parameters = parameters;
+            this.body = body;
+        }
+
+        public <R> R accept(Visitor<R> visitor) {
+            return visitor.visitFunctionExpr(this);
+        }
+
+        public final Token name;
+        public final List<Token> parameters;
+        public final List<Stmt> body;
     }
 
     public abstract <R> R accept(Visitor<R> visitor);
