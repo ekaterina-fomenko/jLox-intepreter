@@ -36,8 +36,8 @@ public class LoxTest {
     }
 
     @Test
-    public void mainVarScopeTest() throws IOException {
-        run("varScopeInput.lox", "varScopeOutput.lox");
+    public void mainScopeTest() throws IOException {
+        run("scopeInput.lox", "scopeOutput.lox");
     }
 
     @Test

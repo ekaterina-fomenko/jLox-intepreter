@@ -9,7 +9,7 @@ import java.util.List;
  */
 
 public abstract class Stmt {
-    interface Visitor<R> {
+    public interface Visitor<R> {
         public R visitExpressionStmt(Expression stmt);
 
         public R visitPrintStmt(Print stmt);
@@ -35,7 +35,7 @@ public abstract class Stmt {
             this.expression = expression;
         }
 
-        <R> R accept(Visitor<R> visitor) {
+        public <R> R accept(Visitor<R> visitor) {
             return visitor.visitExpressionStmt(this);
         }
 
@@ -50,7 +50,7 @@ public abstract class Stmt {
             this.expression = expression;
         }
 
-        <R> R accept(Visitor<R> visitor) {
+       public <R> R accept(Visitor<R> visitor) {
             return visitor.visitPrintStmt(this);
         }
 
@@ -86,7 +86,7 @@ public abstract class Stmt {
             return visitor.visitBlockStmt(this);
         }
 
-        final List<Stmt> statements;
+        public final List<Stmt> statements;
     }
 
     /**
@@ -155,5 +155,5 @@ public abstract class Stmt {
         final Expr value;
     }
 
-    abstract <R> R accept(Visitor<R> visitor);
+    public abstract <R> R accept(Visitor<R> visitor);
 }
