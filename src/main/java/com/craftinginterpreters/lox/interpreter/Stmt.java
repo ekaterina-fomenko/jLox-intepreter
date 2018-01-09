@@ -70,8 +70,8 @@ public abstract class Stmt {
             return visitor.visitVarStmt(this);
         }
 
-        final Token name;
-        final Expr initializer;
+        public final Token name;
+        public final Expr initializer;
     }
 
     /**
