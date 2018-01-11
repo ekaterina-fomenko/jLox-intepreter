@@ -39,7 +39,7 @@ public abstract class Stmt {
             return visitor.visitExpressionStmt(this);
         }
 
-        final Expr expression;
+        public final Expr expression;
     }
 
     /**
@@ -54,7 +54,7 @@ public abstract class Stmt {
             return visitor.visitPrintStmt(this);
         }
 
-        final Expr expression;
+        public final Expr expression;
     }
 
     /**
@@ -103,9 +103,9 @@ public abstract class Stmt {
             return visitor.visitIfStmt(this);
         }
 
-        final Expr condition;
-        final Stmt thenBranch;
-        final Stmt elseBranch;
+        public final Expr condition;
+        public final Stmt thenBranch;
+        public final Stmt elseBranch;
     }
 
     public static class While extends Stmt {
@@ -118,8 +118,8 @@ public abstract class Stmt {
             return visitor.visitWhileStmt(this);
         }
 
-        final Expr condition;
-        final Stmt body;
+        public final Expr condition;
+        public final Stmt body;
     }
 
     public static class Function extends Stmt {
@@ -152,7 +152,7 @@ public abstract class Stmt {
         }
 
         final Token keyword;
-        final Expr value;
+        public final Expr value;
     }
 
     public abstract <R> R accept(Visitor<R> visitor);
