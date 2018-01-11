@@ -30,3 +30,8 @@ var a = "global";
   var a = "block";
   showA();
 }
+//----error case--write test for it
+//fun bad() {
+//  var a = "first";
+//  var a = "second";
+//}

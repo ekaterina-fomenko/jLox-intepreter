@@ -151,7 +151,7 @@ public abstract class Stmt {
             return visitor.visitReturnStmt(this);
         }
 
-        final Token keyword;
+        public final Token keyword;
         public final Expr value;
     }
 
