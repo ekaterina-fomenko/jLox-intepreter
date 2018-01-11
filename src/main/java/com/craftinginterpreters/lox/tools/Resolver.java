@@ -18,7 +18,7 @@ public class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
     private final Interpreter interpreter;
     private final Stack<Map<String, Boolean>> scopes = new Stack<>();
 
-    Resolver(Interpreter interpreter) {
+    public Resolver(Interpreter interpreter) {
         this.interpreter = interpreter;
     }
 

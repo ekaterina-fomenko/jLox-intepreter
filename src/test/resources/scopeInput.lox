@@ -17,15 +17,16 @@ var c = "global c";
 print a;
 print b;
 print c;
+print "";
 //------------ static scope
+print "static scope test:";
+var a = "global";
+{
+  fun showA() {
+    print a;
+  }
 
-//var a = "global";
-//{
-//  fun showA() {
-//    print a;
-//  }
-
-//  showA();
-//  var a = "block";
-//  showA();
-//}
+  showA();
+  var a = "block";
+  showA();
+}

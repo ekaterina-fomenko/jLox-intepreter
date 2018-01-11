@@ -7,6 +7,7 @@ import com.craftinginterpreters.lox.parser.Parser;
 import com.craftinginterpreters.lox.scanner.Scanner;
 import com.craftinginterpreters.lox.tokens.Token;
 import com.craftinginterpreters.lox.tokens.TokenType;
+import com.craftinginterpreters.lox.tools.Resolver;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -66,17 +67,19 @@ public class Lox {
     * Parse text from Lox file
      */
     private static void run(String source) {
-            Scanner scanner = new Scanner(source);
-            List<Token> tokens = scanner.scanTokens();
-            Parser parser = new Parser(tokens);
-            List<Stmt> statements = parser.parse();
+        Scanner scanner = new Scanner(source);
+        List<Token> tokens = scanner.scanTokens();
+        Parser parser = new Parser(tokens);
+        List<Stmt> statements = parser.parse();
 
-            // Stop if there was a syntax error.
-            if (hadError) {
-                return;
-            }
-            interpreter.interpret(statements);
+        // Stop if there was a syntax error.
+        if (hadError) {
+            return;
         }
+        Resolver resolver = new Resolver(interpreter);
+        resolver.resolve(statements);
+        interpreter.interpret(statements);
+    }
 
     /**
      * Error handling

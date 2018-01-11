@@ -106,17 +106,7 @@ public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
 
     @Override
     public Object visitVariableExpr(Expr.Variable expr) {
-        return environment.get(expr.name);
-    }
-
-    private boolean isTruthy(Object object) {
-        if (object == null) {
-            return false;
-        }
-        if (object instanceof Boolean) {
-            return (Boolean) object;
-        }
-        return true;
+        return lookUpVariable(expr.name, expr);
     }
 
     @Override
@@ -335,4 +325,24 @@ public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
     public void resolve(Expr expr, int depth) {
         locals.put(expr, depth);
     }
+
+    private boolean isTruthy(Object object) {
+        if (object == null) {
+            return false;
+        }
+        if (object instanceof Boolean) {
+            return (Boolean) object;
+        }
+        return true;
+    }
+
+    private Object lookUpVariable(Token name, Expr expr) {
+        Integer distance = locals.get(expr);
+        if (distance != null) {
+            return environment.getAt(distance, name.lexeme);
+        } else {
+            return globals.get(name);
+        }
+    }
+
 }
