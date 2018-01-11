@@ -1,11 +1,12 @@
 package com.craftinginterpreters.lox.interpreter;
 
-import com.craftinginterpreters.lox.Environment;
 import com.craftinginterpreters.lox.Lox;
-import com.craftinginterpreters.lox.LoxCallable;
-import com.craftinginterpreters.lox.LoxFunction;
 import com.craftinginterpreters.lox.interpreter.errors.Return;
 import com.craftinginterpreters.lox.interpreter.errors.RuntimeError;
+import com.craftinginterpreters.lox.model.Environment;
+import com.craftinginterpreters.lox.model.LoxCallable;
+import com.craftinginterpreters.lox.model.LoxClass;
+import com.craftinginterpreters.lox.model.LoxFunction;
 import com.craftinginterpreters.lox.tokens.Token;
 import com.craftinginterpreters.lox.tokens.TokenType;
 
@@ -257,6 +258,14 @@ public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
         }
 
         throw new Return(value);
+    }
+
+    @Override
+    public Void visitClassStmt(Stmt.Class stmt) {
+        environment.define(stmt.name.lexeme, null);
+        LoxClass klass = new LoxClass(stmt.name.lexeme);
+        environment.assign(stmt.name, klass);
+        return null;
     }
 
     public void executeBlock(List<Stmt> statements, Environment environment) {

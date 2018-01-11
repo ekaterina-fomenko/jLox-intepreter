@@ -25,6 +25,8 @@ public abstract class Stmt {
         public R visitFunctionStmt(Function stmt);
 
         public R visitReturnStmt(Return stmt);
+
+        public R visitClassStmt(Class stmt);
     }
 
     /**
@@ -153,6 +155,23 @@ public abstract class Stmt {
 
         public final Token keyword;
         public final Expr value;
+    }
+
+    /**
+     * classDecl   → "class" IDENTIFIER "{" function* "}" ;
+     */
+    public static class Class extends Stmt {
+        public Class(Token name, List<Stmt.Function> methods) {
+            this.name = name;
+            this.methods = methods;
+        }
+
+        public <R> R accept(Visitor<R> visitor) {
+            return visitor.visitClassStmt(this);
+        }
+
+        public final Token name;
+        final List<Stmt.Function> methods;
     }
 
     public abstract <R> R accept(Visitor<R> visitor);

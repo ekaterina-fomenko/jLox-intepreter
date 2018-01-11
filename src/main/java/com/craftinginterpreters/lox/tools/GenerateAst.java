@@ -21,6 +21,7 @@ import java.util.List;
  *
  * And also generate abstract class Stmt with statements like:
  *
+ *declaration → classDecl | funDecl | varDecl | statement ;
  * statement → exprStmt | ifStmt | printStmt | whileStmt | block | forStmt | returnStmt;
  * exprStmt  → expression ";" ;
  * printStmt → "print" expression ";" ;
@@ -31,6 +32,7 @@ import java.util.List;
  * funDecl  → "fun" function ;
  * function → IDENTIFIER "(" parameters? ")" block ;
  * returnStmt → "return" expression? ";" ;
+ * classDecl   → "class" IDENTIFIER "{" function* "}" ;
  */
 public class GenerateAst {
     public static void main(String[] args) throws IOException {
@@ -61,7 +63,8 @@ public class GenerateAst {
                 "If         : Expr condition, Stmt thenBranch, Stmt elseBranch",
                 "While      : Expr condition, Stmt body",
                 "Function   : Token name, List<Token> parameters, List<Stmt> body",
-                "Return     : Token keyword, Expr value"
+                "Return     : Token keyword, Expr value",
+                "Class      : Token name, List<Stmt.Function> methods"
         ));
     }
 
