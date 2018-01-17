@@ -9,7 +9,7 @@ import java.util.List;
  * Generate abstract class Expr with all kinds of expressions like:
  *
  * expression → assignment ;
- * assignment → identifier "=" assignment | logic_or ;
+ * assignment → ( call "." )? identifier "=" assignment | logic_or ;
  * logic_or   → logic_and ( "or" logic_and )* ;
  * logic_and  → equality ( "and" equality )* ;
  * unary ->  ( "-" | "!" ) expression
@@ -54,7 +54,8 @@ public class GenerateAst {
                 //for anonymous functions as parameters
                 "Function   : Token name, List<Token> parameters, List<Stmt> body",
                 //for object properties access
-                "Get      : Expr object, Token name"
+                "Get      : Expr object, Token name",
+                "Set      : Expr object, Token name, Expr value"
         ));
 
         defineAst(outputDir, "StmtG", Arrays.asList(
