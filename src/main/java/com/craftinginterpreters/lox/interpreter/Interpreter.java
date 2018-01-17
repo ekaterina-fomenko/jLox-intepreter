@@ -3,10 +3,7 @@ package com.craftinginterpreters.lox.interpreter;
 import com.craftinginterpreters.lox.Lox;
 import com.craftinginterpreters.lox.interpreter.errors.Return;
 import com.craftinginterpreters.lox.interpreter.errors.RuntimeError;
-import com.craftinginterpreters.lox.model.Environment;
-import com.craftinginterpreters.lox.model.LoxCallable;
-import com.craftinginterpreters.lox.model.LoxClass;
-import com.craftinginterpreters.lox.model.LoxFunction;
+import com.craftinginterpreters.lox.model.*;
 import com.craftinginterpreters.lox.tokens.Token;
 import com.craftinginterpreters.lox.tokens.TokenType;
 
@@ -185,6 +182,17 @@ public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
     @Override
     public Object visitFunctionExpr(Expr.Function expr) {
         return new LoxFunction(new Stmt.Function(null, expr.parameters, expr.body), environment);
+    }
+
+    @Override
+    public Object visitGetExpr(Expr.Get expr) {
+        Object object = evaluate(expr.object);
+        if (object instanceof LoxInstance) {
+            return ((LoxInstance) object).get(expr.name);
+        }
+
+        throw new RuntimeError(expr.name,
+                "Only instances have properties.");
     }
 
     @Override

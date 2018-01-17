@@ -16,12 +16,12 @@ import java.util.List;
  * binary -> expression operator expression
  * grouping -> "(" expression ")"
  * literal -> NUMBER | STRING | "true" | "false" | "nil" ;
- * call  → primary ( "(" arguments? ")" )* ;
+ * call  → primary ( "(" arguments? ")" | "." IDENTIFIER )* ;
  * arguments → expression ( "," expression )* ;
  *
  * And also generate abstract class Stmt with statements like:
  *
- *declaration → classDecl | funDecl | varDecl | statement ;
+ * declaration → classDecl | funDecl | varDecl | statement ;
  * statement → exprStmt | ifStmt | printStmt | whileStmt | block | forStmt | returnStmt;
  * exprStmt  → expression ";" ;
  * printStmt → "print" expression ";" ;
@@ -52,7 +52,9 @@ public class GenerateAst {
                 "Variable : Token name",
                 "Call     : Expr callee, Token paren, List<Expr> arguments",
                 //for anonymous functions as parameters
-                "Function   : Token name, List<Token> parameters, List<Stmt> body"
+                "Function   : Token name, List<Token> parameters, List<Stmt> body",
+                //for object properties access
+                "Get      : Expr object, Token name"
         ));
 
         defineAst(outputDir, "StmtG", Arrays.asList(

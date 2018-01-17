@@ -172,6 +172,12 @@ public class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
         return null;
     }
 
+    @Override
+    public Void visitGetExpr(Expr.Get expr) {
+        resolve(expr.object);
+        return null;
+    }
+
     public void resolve(List<Stmt> statements) {
         for (Stmt statement : statements) {
             resolve(statement);

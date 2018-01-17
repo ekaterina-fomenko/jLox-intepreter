@@ -27,6 +27,8 @@ public abstract class Expr {
         public R visitCallExpr(Call expr);
 
         public R visitFunctionExpr(Function expr);
+
+        public R visitGetExpr(Get expr);
     }
 
     /**
@@ -180,6 +182,20 @@ public abstract class Expr {
         public final Token name;
         public final List<Token> parameters;
         public final List<Stmt> body;
+    }
+
+    public static class Get extends Expr {
+        public Get(Expr object, Token name) {
+            this.object = object;
+            this.name = name;
+        }
+
+        public <R> R accept(Visitor<R> visitor) {
+            return visitor.visitGetExpr(this);
+        }
+
+        public final Expr object;
+        final Token name;
     }
 
     public abstract <R> R accept(Visitor<R> visitor);
