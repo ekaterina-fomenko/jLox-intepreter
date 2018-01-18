@@ -62,6 +62,11 @@ public class AstPrinter implements Expr.Visitor<String> {
         return null;
     }
 
+    @Override
+    public String visitSetExpr(Expr.Set expr) {
+        return null;
+    }
+
     /**
      * Helper method for converting expressions to string
      *

@@ -171,7 +171,7 @@ public abstract class Stmt {
         }
 
         public final Token name;
-        final List<Stmt.Function> methods;
+        public final List<Stmt.Function> methods;
     }
 
     public abstract <R> R accept(Visitor<R> visitor);
