@@ -31,6 +31,8 @@ public abstract class Expr {
         public R visitGetExpr(Get expr);
 
         public R visitSetExpr(Set expr);
+
+        public R visitThisExpr(This expr);
     }
 
     /**
@@ -214,6 +216,18 @@ public abstract class Expr {
         public final Expr object;
         final Token name;
         public final Expr value;
+    }
+
+    public static class This extends Expr {
+        public This(Token keyword) {
+            this.keyword = keyword;
+        }
+
+        public <R> R accept(Visitor<R> visitor) {
+            return visitor.visitThisExpr(this);
+        }
+
+        public final Token keyword;
     }
 
     public abstract <R> R accept(Visitor<R> visitor);

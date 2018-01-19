@@ -55,7 +55,8 @@ public class GenerateAst {
                 "Function   : Token name, List<Token> parameters, List<Stmt> body",
                 //for object properties access
                 "Get      : Expr object, Token name",
-                "Set      : Expr object, Token name, Expr value"
+                "Set      : Expr object, Token name, Expr value",
+                "This     : Token keyword"
         ));
 
         defineAst(outputDir, "StmtG", Arrays.asList(

@@ -466,7 +466,7 @@ public class Parser {
     }
 
     /**
-     * Primary rule : primary → IDENTIFIER | NUMBER | STRING | "false" | "true" | "nil" | "(" expression ")" ;
+     * Primary rule : primary → IDENTIFIER | NUMBER | STRING | "false" | "true" | "nil" | "(" expression ")" ; |THIS
      */
     private Expr primary() {
         if (match(FALSE)) {
@@ -496,6 +496,9 @@ public class Parser {
             Expr expr = expression();
             consume(RIGHT_PAREN, "Expect ')' after expression.");
             return new Expr.Grouping(expr);
+        }
+        if (match(THIS)) {
+            return new Expr.This(previous());
         }
         throw error(peek(), "Expect expression.");
     }
