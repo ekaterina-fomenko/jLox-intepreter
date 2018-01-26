@@ -8,10 +8,12 @@ import java.util.Map;
 public class LoxClass implements LoxCallable {
     final String name;
     private final Map<String, LoxFunction> methods;
+    private final LoxClass superclass;
 
-    public LoxClass(String name, Map<String, LoxFunction> methods) {
+    public LoxClass(String name, LoxClass superclass, Map<String, LoxFunction> methods) {
         this.name = name;
         this.methods = methods;
+        this.superclass = superclass;
     }
 
     @Override

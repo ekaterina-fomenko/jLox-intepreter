@@ -32,7 +32,7 @@ import java.util.List;
  * funDecl  → "fun" function ;
  * function → IDENTIFIER "(" parameters? ")" block ;
  * returnStmt → "return" expression? ";" ;
- * classDecl   → "class" IDENTIFIER "{" function* "}" ;
+ * classDecl   → "class" IDENTIFIER ( "<" IDENTIFIER )? "{" function* "}" ;
  */
 public class GenerateAst {
     public static void main(String[] args) throws IOException {
@@ -68,7 +68,7 @@ public class GenerateAst {
                 "While      : Expr condition, Stmt body",
                 "Function   : Token name, List<Token> parameters, List<Stmt> body",
                 "Return     : Token keyword, Expr value",
-                "Class      : Token name, List<Stmt.Function> methods"
+                "Class      : Token name, Expr superclass, List<Stmt.Function> methods"
         ));
     }
 

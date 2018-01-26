@@ -60,6 +60,11 @@ public class LoxTest {
         run("classInput.lox", "classOutput.lox");
     }
 
+    @Test
+    public void mainSuperClassTest() throws IOException {
+        run("superclassInput.lox", "superclassOutput.lox");
+    }
+
     private void run(String fileNameInput, String fileNameOutput) throws IOException {
         String[] args = {FILES_PATH + fileNameInput};
         Lox.main(args);

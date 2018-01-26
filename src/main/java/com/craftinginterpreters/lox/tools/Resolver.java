@@ -128,6 +128,9 @@ public class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
         }
         endScope();
         currentClass = enclosingClass;
+        if (stmt.superclass != null) {
+            resolve(stmt.superclass);
+        }
         return null;
     }
 
