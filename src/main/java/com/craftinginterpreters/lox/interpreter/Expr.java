@@ -33,6 +33,8 @@ public abstract class Expr {
         public R visitSetExpr(Set expr);
 
         public R visitThisExpr(This expr);
+
+        public R visitSuperExpr(Super expr);
     }
 
     /**
@@ -228,6 +230,20 @@ public abstract class Expr {
         }
 
         public final Token keyword;
+    }
+
+    public static class Super extends Expr {
+        public Super(Token keyword, Token method) {
+            this.keyword = keyword;
+            this.method = method;
+        }
+
+        public <R> R accept(Visitor<R> visitor) {
+            return visitor.visitSuperExpr(this);
+        }
+
+        public final Token keyword;
+        final Token method;
     }
 
     public abstract <R> R accept(Visitor<R> visitor);

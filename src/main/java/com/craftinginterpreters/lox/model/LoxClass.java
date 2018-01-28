@@ -41,7 +41,7 @@ public class LoxClass implements LoxCallable {
         return instance;
     }
 
-    LoxFunction findMethod(LoxInstance instance, String name) {
+    public LoxFunction findMethod(LoxInstance instance, String name) {
         if (methods.containsKey(name)) {
             return methods.get(name).bind(instance);
         }

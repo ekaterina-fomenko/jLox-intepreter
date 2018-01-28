@@ -18,6 +18,7 @@ import java.util.List;
  * literal -> NUMBER | STRING | "true" | "false" | "nil" ;
  * call  → primary ( "(" arguments? ")" | "." IDENTIFIER )* ;
  * arguments → expression ( "," expression )* ;
+ * primary → "true" | "false" | "null" | "this" | NUMBER | STRING | IDENTIFIER | "(" expression ")" | "super" "." IDENTIFIER ;
  *
  * And also generate abstract class Stmt with statements like:
  *
@@ -56,7 +57,8 @@ public class GenerateAst {
                 //for object properties access
                 "Get      : Expr object, Token name",
                 "Set      : Expr object, Token name, Expr value",
-                "This     : Token keyword"
+                "This     : Token keyword",
+                "Super    : Token keyword, Token method"
         ));
 
         defineAst(outputDir, "StmtG", Arrays.asList(
