@@ -11,13 +11,13 @@ Requires: Maven and Java (1.8)
 1) *Compile:* mvn install
 
 2) *Run:*
-* mvn exec:java  -> then type in console what you want to intepreterted(using Lox language) -> press Enter
+* mvn exec:java  -> type in console what you want to intepretate(using Lox language)
 
 *Or*
 
 * mvn exec:java -Dexec.args=[path to your file]
 
-You can find expamples in test/resources
+You can find file expamples in test/resources.
 
 **In interpreter were implemented** :
 
