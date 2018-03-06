@@ -204,6 +204,16 @@ public class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
 
     @Override
     public Void visitFunctionExpr(Expr.Function expr) {
+        FunctionType enclosingFunction = currentFunction;
+        currentFunction = FunctionType.FUNCTION;
+        beginScope();
+        for (Token param : expr.parameters) {
+            declare(param);
+            define(param);
+        }
+        resolve(expr.body);
+        endScope();
+        currentFunction = enclosingFunction;
         return null;
     }
 
