@@ -11,9 +11,9 @@ Requires: Maven and Java (1.8)
 1) *Compile:* mvn install
 
 2) *Run:*
-> mvn exec:java  -> then type in console what you want to intepreterted(using Lox language) -> press Enter
+* mvn exec:java  -> then type in console what you want to intepreterted(using Lox language) -> press Enter
 *Or*
-> mvn exec:java -Dexec.args=[path to your file]
+* mvn exec:java -Dexec.args=[path to your file]
 
 You can find expamples in test/resources
 
